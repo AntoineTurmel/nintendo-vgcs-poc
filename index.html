@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Grid</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .game-card {
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      background: #f9f9f9;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .game-card img {
+      width: 128px;
+      height: 128px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .game-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>My Games</h1>
+  <div class="grid" id="gameGrid"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+  <script>
+  function inflateUrlParamToJson(encodedParam) {
+    try {
+      // Step 1: URL-decode the Base64 string
+      const base64 = decodeURIComponent(encodedParam);
+
+      // Step 2: Base64-decode to binary string
+      const binaryStr = atob(base64);
+
+      // Step 3: Convert binary string to Uint8Array
+      const byteArray = Uint8Array.from(binaryStr, c => c.charCodeAt(0));
+
+      // Step 4: Inflate (decompress) the byte array to a UTF-8 string
+      const jsonString = pako.inflate(byteArray, { to: 'string' });
+
+      // Step 5: Parse and return the JSON object
+      return JSON.parse(jsonString);
+    } catch (err) {
+      console.error('Decompression error:', err);
+      return null;
+    }
+  }
+
+  // Example usage:
+  // (Assuming `data` is the param from the compressed URL: ?data=XYZ...)
+  const urlParams = new URLSearchParams(window.location.search);
+  const compressedData = urlParams.get('data')
+
+  if (compressedData) {
+    const jsonObj = inflateUrlParamToJson(compressedData);
+    console.log('Decompressed JSON:', jsonObj);
+    const gameGrid = document.getElementById('gameGrid');
+    const views = jsonObj.data.account.vgc.vgcViews.views;
+
+    views.forEach(view => {
+      const iconUrl = view.icon.url.replace('${size}', '128');
+      const gameName = view.applicationName;
+
+      const card = document.createElement('div');
+      card.className = 'game-card';
+      card.innerHTML = `
+        <img src="${iconUrl}" alt="${gameName} icon">
+        <div class="game-title">${gameName}</div>
+      `;
+
+      gameGrid.appendChild(card);
+    });
+  }
+  
+
+  </script>
+
+</body>
+</html>
