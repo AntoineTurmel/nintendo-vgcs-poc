@@ -39,6 +39,19 @@
 
   <h1>My Games</h1>
   <div class="grid" id="gameGrid"></div>
+  <div class="information">
+    This page allow you to share your virtual game cards from <a href="https://accounts.nintendo.com/portal/vgcs" target="_blank">Nintendo Account page</a>.
+    <br>
+    You will first need to install <a href="https://www.tampermonkey.net/" target="_blank">Tampermonkey</a> or <a href="https://violentmonkey.github.io/" target="_blank">Violentmonkey</a> add-on on your web browser.
+    <br>
+    Then install this userscript: <a href="https://antoineturmel.github.io/nintendo-vgcs-poc/share-vgcs.user.js">https://antoineturmel.github.io/nintendo-vgcs-poc/share-vgcs.user.js</a>
+    <br>
+    And finally go to <a href="https://accounts.nintendo.com/portal/vgcs" target="_blank">Nintendo Account page</a> and click the Share button at the bottom.
+    <br><br>
+    Note that the generated link is a bit long because it puts all data into a compressed text string, a future update may include link shortner.
+    <br><br>
+    <a href="https://www.paypal.com/paypalme/AntoineTURMEL" target="_blank">Donations welcomed on my PayPal</a>
+  </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
   <script>
   function inflateUrlParamToJson(encodedParam) {
