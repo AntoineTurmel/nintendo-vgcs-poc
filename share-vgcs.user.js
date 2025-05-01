@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Intercepter GraphQL + Bouton flottant
-// @namespace    http://tampermonkey.net/
-// @version      1.5
-// @description  Intercepte les requêtes GraphQL et ajoute un bouton flottant
+// @name         Nintendo VGCS Share Link
+// @namespace    nintendo-vgcs-poc@galaksio.tech
+// @version      1.6
+// @description  Add a share link on Nintendo VGCS page
 // @match        https://accounts.nintendo.com/portal/vgcs*
 // @require      https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js
 // @grant        none
@@ -53,17 +53,16 @@
             ) {
                 try {
                     const json = JSON.parse(this.responseText);
-                    console.log("✅ [Tampermonkey] Requête getVgcs interceptée !");
-                    console.log("➡️ URL :", url);
-                    console.log("➡️ Requête :", JSON.parse(requestBody));
-                    console.log("⬅️ Réponse :", json);
+
+                    json.data.account.vgc.vgcViews.views.forEach(view => {
+                      delete view.id;
+                      delete view.ownerNaId;
+                      delete view.userNaId;
+                      delete view.insertedNsDeviceId;
+                    });
 
                   const param = compressJsonToUrlParam(json);
                   GM_setValue('nso_vgcs_json', param);
-
-
-
-
 
                     const views = json?.data?.account?.vgc?.vgcViews?.views;
                     if (Array.isArray(views)) {
@@ -72,7 +71,7 @@
                     }
 
                 } catch (e) {
-                    console.warn("[Tampermonkey] Erreur parsing JSON :", e);
+                    console.warn("Error parsing JSON :", e);
                 }
             }
         });
