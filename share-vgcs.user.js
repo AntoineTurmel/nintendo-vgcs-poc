@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name         Nintendo VGCS Share Link
 // @namespace    nintendo-vgcs-poc@galaksio.tech
-// @version      1.6
+// @version      1.7
 // @description  Add a share link on Nintendo VGCS page
 // @match        https://accounts.nintendo.com/portal/vgcs*
 // @require      https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js
-// @grant        none
 // @run-at       document-start
 // @grant          GM_setValue
 // @grant          GM_getValue
